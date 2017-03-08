@@ -25,6 +25,7 @@ struct Sub_expr;
 struct Mult_expr;
 struct Div_expr;
 struct Rem_expr;
+struct Neg_expr;
 
 
 // Declaration of Type class
@@ -63,6 +64,7 @@ struct Expr::Visitor
   virtual void visit(Mult_expr*) = 0;
   virtual void visit(Div_expr*) = 0;
   virtual void visit(Rem_expr*) = 0;
+  virtual void visit(Neg_expr*) = 0;
 };
 
 struct Bool_expr : Expr {
