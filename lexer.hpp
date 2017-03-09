@@ -1,8 +1,8 @@
 //This file is the implementation of the program execution. 
 //This class produces and evaluates expressions from the abstract syntax of the language
 
-#ifndef GETTOK_HPP
-#define GETTOK_HPP
+#ifndef LEXER_HPP
+#define LEXER_HPP
 
 #include "tok.hpp"
 #include <iostream>
