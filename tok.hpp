@@ -2,10 +2,12 @@
 
 #ifndef TOK_HPP
 #define TOK_HPP
+#include <string>
 
 struct Token{
 	int kind;
 	Token(int k) : kind(k) {}
+	~Token();
 };
 
 struct PuncOp_tok : Token{
@@ -34,24 +36,24 @@ enum tok_kind{
 	gt_eq_tok, // greater than or eequal
 	question_tok, // question mark
 	colon_tok,
+	int_tok,
+	bool_tok,
 
-};
+}
 
 
 
 struct Bool_tokens : Token{
 
 	bool val; // True or False
-	std::string str;
-	Bool_tokens(); // have to finish this
+	std::string str; // need to finish this 
 
 };
 
 struct Int_tokens : Token{
 	int val; // includes the numbers 0 - 9 and hexadecimal literals A - F
-	//Int_tokens(Int_tokens t, int v) : val(v) {} // have to add other parameter
-
-
+	Int_tokens(int_tok t, int v) : int_tok(t), val(v) {} // have to make this work with enum tok_kind
+};
 
 
 
