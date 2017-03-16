@@ -5,25 +5,29 @@
 #define LEXER_HPP
 
 #include "tok.hpp"
+#include "lexer.cpp"
 #include <iostream>
 #include <cstdlib> // used for abort
 #include <cctype>
-#include <fstream>
+//#include <fstream> might use when implement parser
+#include <string>
 
 // Definition of Lexer class
 
 struct Lexer{
-	const char *first;
-	const char *last;
-	int line = 1;
+	char *first;
+	char *last;
+	//const char ch;
+	//std::istream s;
+	std::string buf;
+	int line;
+	int column;
+	Lexer(char *ch) : first(ch), line(1), column(1) {}
 	bool eof() const { return first == last; }
-	char LookAhead() const {
-		if(eof())
-			return 0;
-		else
-			return *first;
-	}
-	void getchar() { ++first; } // function moves to the next token
+	char LookAhead() const { return *first; } //{ return s.get(); }
+	char consume(); // function moves to the next token
+	char ignore() { return eof() ? 0 : *first++; }
+	void skipSpace();
 	Token next();
 	
 };
