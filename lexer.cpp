@@ -1,6 +1,8 @@
-#include <iostream>
 #include "tok.hpp"
 #include "lexer.hpp"
+
+#include <iostream>
+
 
 // Definition of consume() function
 // This function gets the character at the current position
@@ -19,11 +21,13 @@ char Lexer::consume(){
 Token Lexer::next() {
 	buf.clear();
 	ignore();
+	//Token t;
 	
     switch(LookAhead()) {
         case '+' :
             consume();
-            return new PuncOp_tok(plus_tok);
+           // t.kind = Token::plus_tok;
+            return new Token(Token::plus_tok);
         case '-' :
             consume();
             return new PuncOp_tok(minus_tok);
@@ -122,7 +126,7 @@ Token Lexer::next() {
                 std::string str(Iter, buf);
             }
             int n = stoi(str);
-            return new Int_tokens(Int_tokens, n)
+            return new Int_tokens(Int_tokens, n);
         }
         /*
         case '0' :
@@ -177,12 +181,17 @@ Token Lexer::next() {
         
         //case for binary integer literals to be included here
         */
-        case '#' :
+        case '#' : {
+			const char *Iter = first;
             consume();
-            while(!eof() && (std::isalpha(LookAhead()) || std::isspace(LookAhead()))){
+            while((LookAhead() != '\n') && (std::isalpha(LookAhead()) || std::isspace(LookAhead()))){
                 consume();
                 // add characters to an array
-            }
+				std::string str(Iter, buf);
+			}
+			return new Pound_tok(pound_tok, str);		 	
+		}
+            
         default:
             break;
                   
@@ -191,21 +200,29 @@ Token Lexer::next() {
 }
 
 void Lexer::skipSpace(){
-	while(!eof()){
-		switch(LookAhead()){
-			case ' ' :
-				consume();
-				break;
-			case '\n' :
-				++line; 
-				column = 1; // moves to first input character on next line
-				break;
-			case '\t' : {
-				ignore();
-				continue;
-			default: 
-				return;
-			}
+while(!eof()){
+	switch(LookAhead()){
+		case ' ' :
+			consume();
+			break;
+		case '\n' :
+			++line; 
+			column = 1; // moves to first input character on next line
+			break;
+		case '\t' : {
+			ignore();
+			continue;
+		default: 
+			return;
 		}
 	}
 }
+
+}
+
+bool Lexer::match(char ch) {
+	if(LookAhead == k)
+		consume();
+	else 
+		throw syntax_error();
+	
