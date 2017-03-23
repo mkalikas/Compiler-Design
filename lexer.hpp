@@ -5,7 +5,7 @@
 #define LEXER_HPP
 
 #include "tok.hpp"
-#include "lexer.cpp"
+//#include "lexer.cpp"
 #include <iostream>
 #include <cstdlib> // used for abort
 #include <cctype>
@@ -29,6 +29,7 @@ struct Lexer{
 	char ignore() { return eof() ? 0 : *first++; }
 	void skipSpace();
 	Token next();
+	bool match(char);
 	
 };
 
