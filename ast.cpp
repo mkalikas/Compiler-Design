@@ -164,8 +164,3 @@ struct Neg_expr : Expr{
   void accept(Visitor &v) {return v.visit(this); }
 };
 
-struct Context
-{
-  Bool_type bool_type;
-  Int_type int_type;
-};
