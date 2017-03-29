@@ -30,4 +30,10 @@ struct Div_expr;
 struct Rem_expr;
 struct Neg_expr;
 
+struct Context
+{
+  Bool_type bool_type;
+  Int_type int_type;
+};
+
 #endif // AST_HPP
