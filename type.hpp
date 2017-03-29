@@ -15,6 +15,9 @@ check(Context& cxt, Expr* e)
     void visit(Bool_expr* e) {
       r = &cxt.bool_type;
     }
+    void visit(Int_expr* e) {
+		r = &cxt.int_type;
+	}
     void visit(And_expr* e) {
       // check that e->e1 is bool
       // check that e->e2 is bool
@@ -29,6 +32,10 @@ check(Context& cxt, Expr* e)
       // check that e->e1 is bool
       r = &cxt.bool_type;
     }
+    void visit(Cond_expr* e) {
+			// check that e->e1 is bool
+
+	}
     void visit(Equal_expr* e){
       // check that e->e1 is bool
       // check that e->e2 is bool
