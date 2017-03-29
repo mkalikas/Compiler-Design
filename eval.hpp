@@ -9,11 +9,13 @@ eval(Expr* e)
   struct V : Expr::Visitor {
     bool r;
     void visit(Bool_expr* e) { r = e->val; }
+    void visit(Int_expr* e) { r = e->val; }
     void visit(And_expr* e) { r = eval(e->e1) & eval(e->e2); }
     void visit(Or_expr* e) { r = eval(e->e1) | eval(e->e2); }
     void visit(Not_expr* e) { r = !eval(e->e1); }
     void visit(Equal_expr* e) { r = eval(e->e1) == eval(e->e2); }
     void visit(Not_Equal_expr* e) {r = eval(e->e1 != eval(e->e2); }
+    void visit(Cond_expr* e) { r= eval(e->e1) ? eval(e->e2) : eval(e->e3); }
     void visit(Less_than_expr* e) { r = eval(e->e1) < eval(e->e2); }
     void visit(Greater_than_expr* e) { r = eval(e->e1) > eval(e->e2); }
     void visit(Less_orEqual_expr* e) { r = eval(e->e1) <= eval(e->e2); }
