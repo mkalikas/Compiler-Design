@@ -1,11 +1,10 @@
-//This file is the implementation of the program execution. 
+//This file is the implementation of the program execution.
 //This class produces and evaluates expressions from the abstract syntax of the language
 
 #ifndef LEXER_HPP
 #define LEXER_HPP
 
 #include "tok.hpp"
-//#include "lexer.cpp"
 #include <iostream>
 #include <cstdlib> // used for abort
 #include <cctype>
@@ -24,13 +23,12 @@ struct Lexer{
 	int column;
 	Lexer(char *ch) : first(ch), line(1), column(1) {}
 	bool eof() const { return first == last; }
-	char LookAhead() const { return *first; } //{ return s.get(); }
+	char lookahead() const { return *first; }
 	char consume(); // function moves to the next token
 	char ignore() { return eof() ? 0 : *first++; }
 	void skipSpace();
 	Token next();
-	bool match(char);
-	
+
 };
 
 #endif
