@@ -10,6 +10,8 @@
 #include <cctype>
 //#include <fstream> might use when implement parser
 #include <string>
+#include <map>
+#include <vector>
 
 // Definition of Lexer class
 
@@ -28,6 +30,8 @@ struct Lexer{
 	char ignore() { return eof() ? 0 : *first++; }
 	void skipSpace();
 	Token next();
+	std::map<std::string, Token *> st;
+	std::vector<Token>& getTokens(Token);
 
 };
 
