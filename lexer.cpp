@@ -7,6 +7,14 @@
 
 // Definition of consume() function
 // This function gets the character at the current position
+std::vector<Token>& getTokens(Token t) {
+	std::vector<Token> tokens;
+	while(t = next()) {
+		tokens.push_back(t);
+	}
+	return &tokens;
+}
+
 char Lexer::consume(){
 	if(eof())
 		return 0;
@@ -49,82 +57,71 @@ Token Lexer::next() {
 			consume();
 		if(lookahead() == '|'){
 			consume();
-			return Token(or_tok);
-		}
-		else if((lookahead() == std::isdigit(lookahead())) || ((lookahead()) == std::isalpha(lookahead()))){
-			consume();;
 			return Token(pike_tok);
+		}
+		else {
+			return Token(or_tok);
 		}
 		else
 			// abort program
 			abort();
-	case '!' :
-		consume();
-		if(lookahead() == '='){
+		case '!' :
 			consume();
-			return Token(notequ_tok);
-		}
-		else if(lookahead() == std::isdigit(lookahead())){ // complement with integer values
-			char c = consume();
-			return  Int_tokens(int_tok, c);
-		}
-		// else if(lookahead() == complement for boolean literal
-	case '=' :
-		consume();
-		if(lookahead() == '='){
+			if(lookahead() == '='){
+				consume();
+				return Token(notequ_tok);
+			else
+				return Token(exclamation_tok);
+			}
+		case '=' :
 			consume();
-			return Token(equal_tok);
-		}
-		else
-				abort(); // invalid input
-	case '<' :
-		consume();
-		if(lookahead() == '='){
+			if(lookahead() == '='){
+				consume();
+				return Token(equal_tok);
+			}
+			else
+					abort(); // invalid input
+		case '<' :
 			consume();
-			return Token(lt_eq_tok);
-		}
-		else{
+			if(lookahead() == '='){
+				consume();
+				return Token(lt_eq_tok);
+			}
+			else{
+				consume();
+				return Token(lt_tok);
+			}
+		case '>' :
 			consume();
-			return Token(lt_tok);
-		}
-	case '>' :
-		consume();
-		if(lookahead() == '='){
+			if(lookahead() == '='){
+				consume();
+				return Token(gt_eq_tok);
+			}
+			else{
+				consume();
+				return Token(gt_tok);
+			}
+		case '?' :
 			consume();
-			return Token(gt_eq_tok);
-		}
-		else{
+		case ':' :
 			consume();
-			return Token(gt_tok);
-		}
-	case '?' :
-		consume();
-		return Token(question_tok);
-	case ':' :
-		consume();
-		return Token(colon_tok);
-	case '(' :
+			return Token(cond_tok);
+		case '(' :
+				consume();
+				return Token(lparen_tok);
+		case ')' :
 			consume();
-			return Token(lparen_tok);
-	case ')' :
-		consume();
-		return Token(rparen_tok);
-	case '0' : case '1' : case '2' : case '3' : case '4' :
-	case '5' : case '6' : case '7' : case '8' : case '9' : {
-		consume();
-		while(!eof() && std::isxdigit(lookahead())){
+			return Token(rparen_tok);
+		case isxdigit(lookahead()) :
 			consume();
-		}
-		int n = stoi(buf);
-		return Int_tokens(int_tok, n);
+			while(!eof() && std::isxdigit(lookahead())){
+				consume();
+			}
+			int n = stoi(buf);
+			return Int_tokens(int_tok, n);
+
+		//case '#' :  // make this case recognize the symbol and delete entire comment line
 	}
-
-	case '#' :  // make this case recognize the symbol and delete entire comment line
-
-
-	default:
-		break;
-}
 	return Token(eof_tok);
 
 }
