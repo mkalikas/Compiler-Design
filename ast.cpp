@@ -52,7 +52,7 @@ struct Int_expr : Expr {
 	int val;
 	Int_expr(int i) : val(i) { }
 	void accept(Visitor& v) { return v.visit(this); }
-}
+};
 
 struct And_expr : Expr {
   Expr* e1;
@@ -80,7 +80,7 @@ struct Cond_expr : Expr {
 	Expr* e3;
 	Cond_expr(Expr* e1, Expr* e2, Expr* e3) : e1(e1), e2(e2), e3(e3) { }
 	void accept(Visitor &v) { return v.visit(this); }
-}
+};
 
 struct Equal_expr : Expr{
   Expr* e1;
