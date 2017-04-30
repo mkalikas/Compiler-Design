@@ -1,45 +1,46 @@
 #ifndef PRINT_HPP
 #define PRINT_HPP
 
-#include "ast.hpp"
-
+#include "ast.cpp"
 #include <iostream>
 
-bool
-needs_parens(Expr* e)
+bool needs_parens(Expr* e)
 {
   struct V : Expr::Visitor {
     bool r;
     void visit(Bool_expr* e) { r = false; }
     void visit(Int_expr* e) { r = false; }
-    void visit(And_expr* e) { r = true; }
-    void visit(Or_expr* e) { r = true; }
-    void visit(Not_expr* e) { r = true; }
+    void visit(And_expr* e) { r = false; }
+    void visit(Or_expr* e) { r = false; }
+    void visit(Logical_neg_expr* e) { r = false; }
     void visit(Cond_expr* e) { r = false; }
-    void visit(Equal_expr* e) { r = true; }
-    void visit(Not_Equal_expr* e) { r = true; }
-    void visit(Less_than_expr* e) { r = true; }
-    void visit(Greater_than_expr* e) { r = true; }
-    void visit(Less_orEqual_expr* e) { r = true; }
-    void visit(Greater_orEqual_expr* e) { r = true; }
-    void visit(Add_expr* e) { r = true; }
-    void visit(Sub_expr* e) { r = true; }
-    void visit(Mult_expr* e) { r = true; }
-    void visit(Div_expr* e) { r = true; }
-    void visit(Rem_expr* e) { r = true; }
-    void visit(Neg_expr* e) { r = true; }
+    void visit(Equal_expr* e) { r = false; }
+    void visit(Not_Equal_expr* e) { r = false; }
+    void visit(Less_than_expr* e) { r = false; }
+    void visit(Greater_than_expr* e) { r = false; }
+    void visit(Less_orEqual_expr* e) { r = false; }
+    void visit(Greater_orEqual_expr* e) { r = false; }
+    void visit(Add_expr* e) { r = false; }
+    void visit(Sub_expr* e) { r = false; }
+    void visit(Mult_expr* e) { r = false; }
+    void visit(Div_expr* e) { r = false; }
+    void visit(Rem_expr* e) { r = false; }
+    void visit(Arithmetic_neg_expr* e) { r = false; }
+    void visit(Reference_expr* e) { r = false; }
+    void visit(Valuation_expr*) = { r = false; }
+    void visit(Assignment_expr*) = { r = false; }
+    void visit(Function_call_expr*) = { r = true; }
   };
   V vis;
   e->accept(vis);
   return vis.r;
 }
 
-void
-print(Expr* e)
+void print(Expr* e)
 {
   struct V : Expr::Visitor {
     void print_enclosed(Expr* e) {
-      if (needs_parens(e)) {
+      if (needs_parens(e) == true) {
         std::cout << '(';
         print(e);
         std::cout << ')';
@@ -51,11 +52,17 @@ print(Expr* e)
 
     void visit(Bool_expr* e) {
       if (e->val)
-        std::cout << "true";
+        std::cout << e->val;
       else
-        std::cout << "false";
+        std::cout << "Error: no bool value\n";
     }
+	void visit(Int_expr* e) {
+		if(e->val)
+			std::cout << e->val;
+		else
+			std::cout << "Error: no int value\n";
 
+	}
     void visit(And_expr* e) {
       print_enclosed(e->e1);
       std::cout << " & ";
@@ -66,17 +73,17 @@ print(Expr* e)
       std::cout << " | ";
       print_enclosed(e->e2);
     }
-    void visit(Not_expr* e) {
+    void visit(Logical_neg_expr* e) {
       std::cout << '!';
       print_enclosed(e->e1);
     }
     void visit(Cond_expr* e) {
-			print_enclosed(e->e1);
-			std::cout << " ? ";
-			print_enclosed(e->e2);
-			std::cout << " : ";
-			print_enclosed(e->e3);
-		}
+		print_enclosed(e->e1);
+		std::cout << " ? ";
+		print_enclosed(e->e2);
+		std::cout << " : ";
+		print_enclosed(e->e3);
+	}
     void visit(Equal_expr* e) {
       print_enclosed(e->e1);
       std::cout << "==";
@@ -132,14 +139,25 @@ print(Expr* e)
       std::cout << '%';
       print_enclosed(e->e2);
     }
-    void visit(Neg_expr* e){
-    print_enclosed(0);
-    std::cout << '-';
-    print_enclosed(e->e1);
+    void visit(Arithmetic_neg_expr* e){
+      std::cout << '-';
+      print_enclosed(e->e1);
+    }
+    void visit(Reference_expr* e) {
+      print_enclosed(e);
+    }
+    void visit(Valuation_expr* e) {
+      print_enclosed(e); 
+    }
+    void visit(Assignment_expr* e) {
+      print_enclosed(e); 
+    }
+    void visit(Function_call_expr* e) {
+      print_enclosed(e); 
     }
   };
   V vis;
   e->accept(vis);
 }
 
-#define
+#endif

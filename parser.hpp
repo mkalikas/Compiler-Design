@@ -4,29 +4,33 @@
 
 
 #include "tok.hpp"
-#include "lexer.hpp"
+#include "lexer.cpp"
 #include "ast.hpp"
 #include "semantics.hpp"
 #include <stack>
+#include <string>
 
 struct Parser {
+	Parser(std::string &)
 	Lexer lexer;
 	Semantics sem;
 	tok_kind lookahead();
-	Token consume();
-	Token match(tok_kind);
-	Token match_if(tok_kind);
+	Token* consume();
+	Token* match(tok_kind);
+	Token* match_if(tok_kind);
 	void stmt();
-	Expr* expression(); // productions
-	Expr* conditional_expr();
-	Expr* logical_or_expr();
-	Expr* logical_and_expr();
-	Expr* eq_expr();
-	Expr* ordering_expr();
-	Expr* add_expr();
-	Expr* mult_expr();
-	Expr* unary_expr();
-	Expr* primary_expr();
+	void expression(); // productions change return to ast
+	void assignment_expr();
+	void conditional_expr();
+	void logical_or_expr();
+	void logical_and_expr();
+	void equal_expr();
+	void ordering_expr();
+	void additive_expr();
+	void multiplicative_expr();
+	void unary_expr();
+	void primary_expr();
+	void id_expr();
 	std::stack<Token*> tokens;
 	bool empty() { return t.empty(); }
 	Token *peek() { return !t.empty() ? t.top() : nullptr; }

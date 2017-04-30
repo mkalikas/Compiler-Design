@@ -8,30 +8,29 @@
 #include <iostream>
 #include <cstdlib> // used for abort
 #include <cctype>
-//#include <fstream> might use when implement parser
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <vector>
 
 // Definition of Lexer class
 
 struct Lexer{
-	char *first;
-	char *last;
-	//const char ch;
-	//std::istream s;
-	std::string buf;
+	
+	Lexer(std::string &); // constructor
+	~Lexer() { toks_to_parse.erase(toks_to_parse.begin(), toks_to_parse.end()); } // destructor
+	char *first; // 
+	char *limit;
 	int line;
-	int column;
-	Lexer(char *ch) : first(ch), line(1), column(1) {}
-	bool eof() const { return first == last; }
-	char lookahead() const { return *first; }
-	char consume(); // function moves to the next token
-	char ignore() { return eof() ? 0 : *first++; }
-	void skipSpace();
-	Token next();
-	std::map<std::string, Token *> st;
-	std::vector<Token>& getTokens(Token);
+	std::string current_tok;
+	bool end() { return first == limit; }
+	char lookahead() { return end() ? 0 : *first; }
+	bool match(char c); // matches operators that are made of two symbols 
+	char check_next();
+	char consume(); // moves to the next token
+	Token* lexical_analyzer(); // reads the input from the source
+	const std::unordered_map<std::string, Token *> *keys;
+	std::vector<Token*> toks_to_parse; // creates a queue of the tokens from the input string
+	std::unordered_map<std::string, Token *> *ids; // insert identifiers into map
 
 };
 

@@ -1,150 +1,197 @@
-#include "tok.hpp"
 #include "lexer.hpp"
 
 #include <iostream>
-#include <exception>
+#include <cassert>
 
+// constructor
+Lexer::Lexer(std::string &s) {
+	first = &s.at(0);
+	limit = &s.at(0) + s.length();
+}
+
+bool Lexer::match(char c) {
+	assert(*(first + 1));
+
+	if(*(first + 1) == c)
+		return consume();
+	else 
+		return 0;
+}
+
+char Lexer::check_next() {
+
+}
 
 // Definition of consume() function
 // This function gets the character at the current position
-std::vector<Token>& getTokens(Token t) {
-	std::vector<Token> tokens;
-	while(t = next()) {
-		tokens.push_back(t);
-	}
-	return &tokens;
-}
-
 char Lexer::consume(){
-	if(eof())
-		return 0;
-	buf += *first++;
-	++column;
-	return buf.back();
+	assert(!end());
+
+	char c = *first++; 
+	current_tok.push_back(c);
+	return c;
 }
 
 // Definition of Token next() function
-Token Lexer::next() {
-	buf.clear();
-	ignore();
-
+Token* Lexer::lexical_analyzer() {
+	current_tok.clear();
+	for(; ; consume()) { 
+		if(lookahead() == ' ' || lookahead() == '\t')
+			++first;
+		else if(lookahead() == '\n')
+			return nullptr;
+	}
+	Token* t;
 	switch(lookahead()) {
+		case '0' : 
+			return nullptr;
 		case '+' :
-			consume();
-			return Token(plus_tok);
+			++first;
+			t = new Token(plus_tok);
+			toks_to_parse.push_back(t);
+			return t;
 		case '-' :
-			consume();
-			return Token(minus_tok);
+			++first;
+			t = new Token(minus_tok);
+			toks_to_parse.push_back(t);
+			return t;
 		case '*' :
-			consume();
-			return Token(star_tok);
+			++first;
+			t = new Token(star_tok);
+			toks_to_parse.push_back(t);
+			return t;
 		case '/' :
-			consume();
-			return Token(slash_tok);
+			++first;
+			t = new Token(slash_tok);
+			toks_to_parse.push_back(t);
+			return t;
 		case '%' :
-			consume();
-			return Token(percent_tok);
+			++first;
+			t = new Token(percent_tok);
+			toks_to_parse.push_back(t);
+			return t;
 		case '&' :
-			consume();
-			if(lookahead() == '&'){
-					consume();
-					return Token(ampand_tok);
+			if(match('&')) {
+				t = new Token(and_tok);
+				toks_to_parse.push_back(t);
+				return t;
 			}
 			else
-				// abort program
-				abort();
+				++first;
+				t = new Token(ampand_tok);
+				toks_to_parse.push_back(t);
+				return t;
 		case '|' :
-			consume();
-		if(lookahead() == '|'){
-			consume();
-			return Token(pike_tok);
+		if(match('|')) {
+			t = new Token(pike_tok);
+			toks_to_parse.push_back(t);
+			return t;
 		}
 		else {
-			return Token(or_tok);
+			++first;
+			t = new Token(or_tok);
+			toks_to_parse.push_back(t);
+			return t;
+
 		}
-		else
-			// abort program
-			abort();
 		case '!' :
-			consume();
-			if(lookahead() == '='){
-				consume();
-				return Token(notequ_tok);
-			else
-				return Token(exclamation_tok);
+			if(match('=')) {
+				t = new Token(notequ_tok);
+				toks_to_parse.push_back(t);
+				return t;
 			}
+			else
+				++first;
+				t = new Token(exclamation_tok);
+				toks_to_parse.push_back(t);
+				return t;
 		case '=' :
-			consume();
-			if(lookahead() == '='){
-				consume();
-				return Token(equal_tok);
+			if(match('=')) {
+				t = new Token(equal_tok);
+				toks_to_parse.push_back(t);
+				return t;
 			}
 			else
-					abort(); // invalid input
+				t = new Token(assignment_tok);
+				toks_to_parse.push_back(t);
+				return t;
 		case '<' :
-			consume();
-			if(lookahead() == '='){
-				consume();
-				return Token(lt_eq_tok);
+			if(match('=')) {
+				t = new Token(lt_eq_tok);
+				toks_to_parse.push_back(t);
+				return t;
 			}
 			else{
-				consume();
-				return Token(lt_tok);
+				++first;
+				t = new Token(lt_tok);
+				toks_to_parse.push_back(t);
+				return t;
 			}
 		case '>' :
-			consume();
-			if(lookahead() == '='){
-				consume();
-				return Token(gt_eq_tok);
+			if(match('=')) {
+				t = new Token(gt_eq_tok);
+				toks_to_parse.push_back(t);
+				return t;
 			}
 			else{
-				consume();
-				return Token(gt_tok);
+				++first;
+				t = new Token(gt_tok);
+				toks_to_parse.push_back(t);
+				return t;
 			}
 		case '?' :
-			consume();
+			++first;
+			t = new Token(question_tok);
+			toks_to_parse.push_back(t);
+			return t;
 		case ':' :
-			consume();
-			return Token(cond_tok);
+			++first;
+			t = new Token(colon_tok);
+			toks_to_parse.push_back(t);
+			return t;
 		case '(' :
-				consume();
-				return Token(lparen_tok);
+			++first;
+			t = new Token(lparen_tok);
+			toks_to_parse.push_back(t);
+			return t;
 		case ')' :
-			consume();
-			return Token(rparen_tok);
-		case isxdigit(lookahead()) :
-			consume();
-			while(!eof() && std::isxdigit(lookahead())){
+			++first;
+			t = new Token(rparen_tok);
+			toks_to_parse.push_back(t);
+			return t;
+		case '{' :
+			++first;
+			t = new Token(lbrace_tok);
+			toks_to_parse.push_back(t);
+			return t;
+		case '}' :
+			++first;
+			t = new Token(rbrace_tok);
+			toks_to_parse.push_back(t);
+			return t;
+		default :
+			if(isxdigit(lookahead())) {	
 				consume();
+				while(!end() && std::isxdigit(lookahead())) {
+					consume();
+				}
+				int n = stoi(current_tok);
+				t = new Int_tokens(int_tok, n);
+				toks_to_parse.push_back(t);
+			return t;
 			}
-			int n = stoi(buf);
-			return Int_tokens(int_tok, n);
+			else if(isalnum(lookahead())) {
+
+				std::unordered_map<std::string, Token*>::const_iterator it = keys->find(current_tok);
+				if(it != keys->end()) {
+					t = new Token(it->second);
+					toks_to_parse.push_back(t);
+					return t;
+				}			
+			}
 
 		//case '#' :  // make this case recognize the symbol and delete entire comment line
-	}
 	return Token(eof_tok);
 
 }
-
-void Lexer::skipSpace(){
-	while(!eof()){
-		switch(lookahead()){
-			case ' ' :
-				consume();
-				break;
-			case '\n' :
-				++line;
-				column = 1; // moves to first input character on next line
-				break;
-			case '\t' : {
-				ignore();
-				continue;
-			default:
-				return;
-			}
-		}
-	}
-
-}
-
 

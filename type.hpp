@@ -1,17 +1,16 @@
 #ifndef TYPE_HPP
 #define TYPE_HPP
 
-#include "ast.hpp"
+#include "ast.cpp"
 
 #include <iostream>
 
-Type*
-check(Context& cxt, Expr* e)
-{
+Type* check(Context& cxt, Expr* e) {
   struct V : Expr::Visitor {
     Context& cxt;
     Type* r;
     V(Context& c) : cxt(c) { }
+
     void visit(Bool_expr* e) {
       r = &cxt.bool_type;
     }
@@ -28,7 +27,7 @@ check(Context& cxt, Expr* e)
       // check that e->e2 is bool
       r = &cxt.bool_type;
     }
-    void visit(Not_expr* e) {
+    void visit(Logical_neg_expr* e) {
       // check that e->e1 is bool
       r = &cxt.bool_type;
     }
@@ -91,8 +90,21 @@ check(Context& cxt, Expr* e)
       // check that e->e2 is bool
       r = &cxt.int_type;
     }
-    void visit(Neg_expr* e){
-    r = &cxt.int_type;}
+    void visit(Arithmetic_neg_expr* e){
+      r = &cxt.int_type; 
+    }
+    void visit(Reference_expr* e) {
+      // check if the reference is a variable or function
+    } 
+    void visit(Valuation_expr* e) {
+      //
+    }
+    void visit(Assignment_expr* e) {
+
+    } 
+    void visit(Function_call_expr* e) {
+
+    }
 
 
   };

@@ -1,22 +1,27 @@
 #include <iostream>
-#include <fstream>
-#include "ast.hpp"
+#include <unordered_map>
+#include "ast.cpp"
 #include "eval.hpp"
 #include "print.hpp"
 #include "type.hpp"
 #include "tok.hpp"
-#include "lexer.hpp"
-#include "parser.hpp"
+//#include "lexer.cpp"
+//#include "parser.cpp"
 
-int 
+// Global variables 
+const std::unordered_map<std::string, Token *> keywords({"break", id_tok}, {"continue", id_tok}, {"def", id_tok}, {"else", id_tok}, {"false", new bool_tok(false)}, {"if", id_tok}, {"return", id_tok}, {"true", new bool_tok(true)}, {"var", id_tok}, {"while", id_tok}, {"assert", id_tok});
+std::unordered_map<std::string, Token *> symbol_table; // insert identifiers into map
+
+
+int
 main() {
 
  // code from HW1
- /* Context cxt;
+  Context cxt;
   {
-    Expr* e = 
+    Expr* e =
       new Or_expr(
-        new Not_expr(
+        new Logical_neg_expr(
           new Bool_expr(true)
         ),
         new Bool_expr(true)
@@ -27,8 +32,8 @@ main() {
   }
 
   {
-    Expr* e = 
-      new Not_expr(
+    Expr* e =
+      new Logical_neg_expr(
         new Or_expr(
           new Bool_expr(true),
           new Bool_expr(false)
@@ -39,27 +44,28 @@ main() {
     std::cout << " == " << eval(e) << '\n';
   }
 
-*/
+  {
+  Expr* e = new Mult_expr(
+    new Int_expr(3),
+    new Add_expr(
+      new Int_expr(4),
+      new Int_expr(2)
+    ));
+    assert(check(cxt, e));
+    print(e);
+	std::cout << " == " << eval(e) << '\n';
+  }
+//std::ofstream out; // the file that will be written that contains the value of each expression
+	/*std::string lexeme; // the expression being read from input
+	char ch; // character
 
-//This is a driver program that implements the lexer and calculator program for homework 2
+	while(true) {
+		cout << "=>";
+		lexeme = std::getline();
 
+	}*/
 
-//std::ofstream out; // the file that will be written that contains the value of each expression 
-	std::string lexeme; // the expression being read from input
-	char ch; // character 
-
-    in.open();
-
-	if(in.fail())
-		std::cout << "ERROR: The file does not exist.";
-	else { // Open the file and read the input line by line until the end of file is detected
-	
-	
-		in.close(); // close file
-	}
-
-
-
+	return 0;
 
 }
 
