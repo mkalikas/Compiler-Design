@@ -27,7 +27,11 @@ Type* check(Context& cxt, Expr* e) {
       // check that e->e2 is bool
       r = &cxt.bool_type;
     }
+<<<<<<< HEAD
     void visit(Not_expr* e) {
+=======
+    void visit(Logical_neg_expr* e) {
+>>>>>>> 74c400d5d6c8c6770909804f7f747253d70982e9
       // check that e->e1 is bool
       r = &cxt.bool_type;
     }
@@ -90,8 +94,26 @@ Type* check(Context& cxt, Expr* e) {
       // check that e->e2 is bool
       r = &cxt.int_type;
     }
+<<<<<<< HEAD
     void visit(Neg_expr* e){
     r = &cxt.int_type;}
+=======
+    void visit(Arithmetic_neg_expr* e){
+      r = &cxt.int_type; 
+    }
+    void visit(Reference_expr* e) {
+      // check if the reference is a variable or function
+    } 
+    void visit(Valuation_expr* e) {
+      //
+    }
+    void visit(Assignment_expr* e) {
+
+    } 
+    void visit(Function_call_expr* e) {
+
+    }
+>>>>>>> 74c400d5d6c8c6770909804f7f747253d70982e9
 
 
   };

@@ -4,7 +4,11 @@
 #include <cassert>
 
 // constructor
+<<<<<<< HEAD
 Lexer::Lexer(std::string &s, ) {
+=======
+Lexer::Lexer(std::string &s) {
+>>>>>>> 74c400d5d6c8c6770909804f7f747253d70982e9
 	first = &s.at(0);
 	limit = &s.at(0) + s.length();
 }

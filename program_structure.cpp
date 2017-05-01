@@ -1,4 +1,11 @@
 // Program Structure
+<<<<<<< HEAD
+=======
+
+#ifndef PROGRAM_STRUCTURE_HPP
+#define PROGRAM_STRUCTURE_HPP
+
+>>>>>>> 74c400d5d6c8c6770909804f7f747253d70982e9
 struct Program
 {
 	
@@ -28,3 +35,7 @@ struct Paramater
 {
 	
 };
+<<<<<<< HEAD
+=======
+#endif
+>>>>>>> 74c400d5d6c8c6770909804f7f747253d70982e9
