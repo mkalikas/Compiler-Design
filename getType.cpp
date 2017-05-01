@@ -131,11 +131,8 @@ exprTypes Mult_expr::type() {
 		return type_err;
 }
 exprTypes Div_expr::type() {
-<<<<<<< HEAD
 	// check that e1->typ e() is int
-=======
 	// check that e1->type() is int
->>>>>>> 74c400d5d6c8c6770909804f7f747253d70982e9
 	if(e1->type() == int_type) {
 		// check that e2->type() is int
 		if(e2->type() == int_type)

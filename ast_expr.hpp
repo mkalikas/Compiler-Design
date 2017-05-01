@@ -28,23 +28,6 @@ struct Valuation_expr;
 struct Assignment_expr;
 struct Function_call_expr;
 
-<<<<<<< HEAD
-=======
-// Definition of Type class
-struct Type {
-  struct Visitor;
-  virtual ~Type() = default;
-  virtual void accept(Visitor&) { }
-};
-
-// Definition of Bool_type and Int_type classes
-struct Bool_type : Type { };
-struct Int_type : Type { };
-struct Reference_type : Type { };
-struct Function_type : Type { };
-
-
->>>>>>> 74c400d5d6c8c6770909804f7f747253d70982e9
 struct Expr {
 	struct Visitor;
 	virtual ~Expr() = default;
@@ -225,10 +208,7 @@ struct Arithmetic_neg_expr : Expr {
 };
 
 struct Reference_expr : Expr {
-<<<<<<< HEAD
   Decl *d;
-=======
->>>>>>> 74c400d5d6c8c6770909804f7f747253d70982e9
   void accept(Visitor &v) override { v.visit(this); }
 };
 
@@ -246,14 +226,11 @@ struct Function_call_expr : Expr {
   // value is the value returned by the called function
   // type is the called function's return type
   // fits the form: e(e1, e2, e3,...en) where e is the callee and e1, e2, e3,...en are the arguments
-<<<<<<< HEAD
     // the called function has to have the same number of parameters as the function call
   Expr *function;
   std::std::vector<Expr*> args;
-=======
   // the called function has to have the same number of parameters as the function call
 
->>>>>>> 74c400d5d6c8c6770909804f7f747253d70982e9
   void accept(Visitor &v) override { v.visit(this); } 
 };
 /*
