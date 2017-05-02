@@ -9,7 +9,7 @@
 //#include "parser.cpp"
 
 // Global variables 
-const std::unordered_map<std::string, Token *> keywords({"break", id_tok}, {"continue", id_tok}, {"def", id_tok}, {"else", id_tok}, {"false", new bool_tok(false)}, {"if", id_tok}, {"return", id_tok}, {"true", new bool_tok(true)}, {"var", id_tok}, {"while", id_tok}, {"assert", id_tok});
+const std::unordered_map<std::string, Token *> keywords({"break", break_tok}, {"continue", continue_tok}, {"def", def_tok}, {"else", else_tok}, {"false", new bool_tok(false)}, {"if", if_tok}, {"return", return_tok}, {"true", new bool_tok(true)}, {"var", var_tok}, {"while", while_tok}, {"assert", assert_tok});
 std::unordered_map<std::string, Token *> symbol_table; // insert identifiers into map
 
 

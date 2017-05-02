@@ -4,36 +4,52 @@
 
 
 #include "tok.hpp"
-#include "lexer.cpp"
-#include "ast.hpp"
+#include "lexer.hpp"
+#include "ast_expr.hpp"
+#include "ast_stmt.hpp"
 #include "semantics.hpp"
-#include <stack>
+#include <vector>
 #include <string>
 
 struct Parser {
-	Parser(std::string &)
+	Parser(std::unordered_map<std::string, Token*> *i, std::unordered_map<std::string, Token *> *kstd::std::vector<Token*> toks;);
 	Lexer lexer;
 	Semantics sem;
 	tok_kind lookahead();
 	Token* consume();
 	Token* match(tok_kind);
 	Token* match_if(tok_kind);
-	void stmt();
-	void expression(); // productions change return to ast
-	void assignment_expr();
-	void conditional_expr();
-	void logical_or_expr();
-	void logical_and_expr();
-	void equal_expr();
-	void ordering_expr();
-	void additive_expr();
-	void multiplicative_expr();
-	void unary_expr();
-	void primary_expr();
-	void id_expr();
-	std::stack<Token*> tokens;
-	bool empty() { return t.empty(); }
-	Token *peek() { return !t.empty() ? t.top() : nullptr; }
+
+	// functions for statements
+	Stmt stmt();
+	Stmt block_stmt();
+	Stmt stmt_seq();
+	Stmt if_stmt();
+	Stmt while_stmt();
+	Stmt break_stmt();
+	Stmt continue_stmt();
+	Stmt return_stmt();
+	Stmt assert_stmt();
+	Stmt expr_stmt();
+	Stmt decl_stmt();
+
+	// functions for expressions
+	Expr expression(); // productions change return to ast
+	Expr assignment_expr();
+	Expr conditional_expr();
+	Expr logical_or_expr();
+	Expr logical_and_expr();
+	Expr equal_expr();
+	Expr ordering_expr();
+	Expr additive_expr();
+	Expr multiplicative_expr();
+	Expr unary_expr();
+	Expr primary_expr();
+	Expr id_expr();
+
+	std::vector<Token*> tokens;
+	bool empty() { return tokens.empty(); }
+	Token *peek() { return !tokens.empty() ? tokens.top() : nullptr; }
 };
 
 #endif

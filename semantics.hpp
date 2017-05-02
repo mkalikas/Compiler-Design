@@ -1,7 +1,6 @@
 #ifndef SEMANTICS_HPP
 #define SEMANTICS_HPP
 
-#include "ast_expr.hpp"
 #include "tok.hpp"
 
 class Semantics {
@@ -25,7 +24,17 @@ class Semantics {
 	Expr* on_gt(Expr* e1, Expr* e2);
 	Expr* on_lt_eq(Expr* e1, Expr* e2);
 	Expr* on_gt_eq(Expr* e1, Expr* e2);
-
+	Stmt* on_block_stmt(Stmt *s);
+	Stmt* on_stmt_seq(Stmt *s);
+	Stmt* on_if_stmt(Expr *e, Stmt* s1, Stmt* s2);
+	Stmt* on_while_stmt(Expr *e, Stmt *s);
+	Stmt* on_break_stmt();
+	Stmt* on_contintue_stmt();
+	Stmt* on_return_stmt();
+	Stmt* on_assert_stmt();
+	Stmt* on_expr_stmt(Expr *e);
+	Stmt* on_decl_stmt(Decl *d);
+	Stmt* on_var_decl(Type t, Expr *e)
 };
 
 #endif

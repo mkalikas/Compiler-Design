@@ -16,7 +16,7 @@
 
 struct Lexer{
 	
-	Lexer(std::string &); // constructor
+	Lexer(std::unordered_map<std::string, Token*> *i, std::unordered_map<std::string, Token *> *k, std::string &); // constructor
 	~Lexer() { toks_to_parse.erase(toks_to_parse.begin(), toks_to_parse.end()); } // destructor
 	char *first; // 
 	char *limit;

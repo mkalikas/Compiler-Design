@@ -149,6 +149,11 @@ Token* Lexer::lexical_analyzer() {
 			t = new Token(colon_tok);
 			toks_to_parse.push_back(t);
 			return t;
+		case ';' :
+			++first;
+			t = new Token(semicolon_tok);
+			toks_to_parse.push_back(t);
+			return t;
 		case '(' :
 			++first;
 			t = new Token(lparen_tok);
@@ -180,7 +185,7 @@ Token* Lexer::lexical_analyzer() {
 				toks_to_parse.push_back(t);
 			return t;
 			}
-			else if(isalnum(lookahead())) {
+			else if(isalpha(lookahead())) {
 
 				std::unordered_map<std::string, Token*>::const_iterator it = keys->find(current_tok);
 				if(it != keys->end()) {

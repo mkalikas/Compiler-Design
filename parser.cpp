@@ -16,7 +16,7 @@ Token* Parser::consume() {
 	tokens.pop();
 
 	if(tokens.empty()) {
-		if(Token *t = lexer.next())
+		if(Token *t = lexer.lexical_analyzer())
 			tokens.push(t);
 	}
 	return t;
@@ -40,19 +40,6 @@ Token Parser::match_if(tok_kind k) {
 		return nullptr;
 }
 
-/*
-// definition of stmt member function
-void Parser::stmt() {
-
-	switch(lookahead()) {
-		case :
-
-
-
-	}
-
-}
-*/
 
 
 

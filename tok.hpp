@@ -26,6 +26,7 @@ enum tok_kind {
 
 	question_tok, // question mark
 	colon_tok, // colon
+	semicolon_tok;
 
 	plus_tok,
 	minus_tok,
@@ -37,6 +38,16 @@ enum tok_kind {
 	lt_eq_tok, // less than or equal
 	gt_tok, // greater than symbol
 	gt_eq_tok, // greater than or eequal
+
+	break_tok,
+	continue_tok,
+	def_tok,
+	else_tok,
+	if_tok,
+	return_tok,
+	var_tok,
+	while_tok,
+	assert_tok,
 
 	id_tok, // identifies a keyword
 	eof_tok
