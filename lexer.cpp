@@ -4,7 +4,7 @@
 #include <cassert>
 
 // constructor
-Lexer::Lexer(std::string &s) {
+Lexer::Lexer(std::unordered_map<std::string, Token*> &i, std::unordered_map<std::string, Token *> &keys, std::string &s) {
 	first = &s.at(0);
 	limit = &s.at(0) + s.length();
 }
@@ -16,10 +16,6 @@ bool Lexer::match(char c) {
 		return consume();
 	else 
 		return 0;
-}
-
-char Lexer::check_next() {
-
 }
 
 // Definition of consume() function
@@ -196,7 +192,7 @@ Token* Lexer::lexical_analyzer() {
 			}
 
 		//case '#' :  // make this case recognize the symbol and delete entire comment line
-	return Token(eof_tok);
+	return nullptr;
 
 }
 

@@ -6,11 +6,10 @@
 
 #include "tok.hpp"
 #include <iostream>
-#include <cstdlib> // used for abort
 #include <cctype>
 #include <string>
 #include <unordered_map>
-#include <vector>
+#include <deque>
 
 // Definition of Lexer class
 
@@ -25,11 +24,10 @@ struct Lexer{
 	bool end() { return first == limit; }
 	char lookahead() { return end() ? 0 : *first; }
 	bool match(char c); // matches operators that are made of two symbols 
-	char check_next();
 	char consume(); // moves to the next token
 	Token* lexical_analyzer(); // reads the input from the source
 	const std::unordered_map<std::string, Token *> *keys;
-	std::vector<Token*> toks_to_parse; // creates a queue of the tokens from the input string
+	std::deque<Token*> toks_to_parse; // creates a queue of the tokens from the input string
 	std::unordered_map<std::string, Token *> *ids; // insert identifiers into map
 
 };

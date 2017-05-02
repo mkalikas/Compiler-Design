@@ -137,11 +137,10 @@ Expr* Parser::unary_expr() {
     Expr* e1 = primary_expr(); // 
 
 	if(match_if(exclamation_tok)) {
-       = unary_expr(); 
-      e1 = on_exclamation(e1); // xor
+      e1 = sem.on_exclamation(e1); // xor
 	}
 	else if(match_if(minus_tok)) {
-		e1 = sem.on_neg(e1);
+		e1 = sem.on_negation(e1);
 	}
 	return e1;
 }
@@ -154,9 +153,9 @@ Expr* Parser::primary_expr() {
 	// expression enclosed in parentheses
     switch(lookahead()) {
 	case bool_tok :
-		return sem.on_bool(e);
+		return sem.on_bool(consume()); // true and false keywords
 	case int_tok :
-		return sem.on_int(e);
+		return sem.on_int(consume());
     case id_tok :
         return id_expr();
     case lparen_tok :
@@ -171,6 +170,6 @@ Expr* Parser::primary_expr() {
 }
 
 void Parser::id_expr() {
-      
-
+	Token *id = match(id_tok);
+	return sem.on_id
 }

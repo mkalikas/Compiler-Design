@@ -1,13 +1,17 @@
 #include "parser.hpp"
 
+// Constructor 
+Parser(std::unordered_map<std::string, Token*> &i, std::unordered_map<std::string, Token *> &keys, std::string &s) : lexer(i, keys, s) {
+ 	if(Token* t = lexer.lexical_analyzer())
+ 		tokens.push_front(t);
+}
 
-// definition of match member function
 // definition of lookahead member function
 tok_kind Parser::lookahead() {
-	Token *tok = peek();
-
-	return tok->kind;
-
+	if(Token *tok = peek())
+		return tok->kind;
+	else
+		return eof_tok;
 }
 
 // definition of consume member funciton
@@ -22,7 +26,7 @@ Token* Parser::consume() {
 	return t;
 }
 
-
+// definition of match member function
 Token* Parser::match(tok_kind k) {
 	if(lookahead() == k)
 		return consume();
@@ -33,7 +37,7 @@ Token* Parser::match(tok_kind k) {
 }
 
 
-Token Parser::match_if(tok_kind k) {
+Token Parser::match_expected(tok_kind k) {
 	if(lookahead() == k)
 		return consume();
 	else

@@ -1,4 +1,4 @@
-// Statements
+// Concrete syntax for statements
 #include "parser.hpp"
 
 // definition of stmt member function
