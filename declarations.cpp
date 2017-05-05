@@ -1,7 +1,5 @@
 // Declarations
 
-#ifndef DECLARATION_HPP
-#define DECLARATION_HPP
 
 #include "ast_expr.hpp"
 #include "ast_types.hpp"
@@ -23,5 +21,3 @@ struct Var_decl : Decl {
 	Type *ty;
 	Expr *int_;
 };
-
-#endif
