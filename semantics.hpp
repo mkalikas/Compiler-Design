@@ -2,6 +2,7 @@
 #define SEMANTICS_HPP
 
 #include "tok.hpp"
+#include "ast_types.hpp"
 
 struct Semantics {
 	Expr* on_int(Token *);
@@ -35,8 +36,9 @@ struct Semantics {
 	Stmt* on_assert_stmt();
 	Stmt* on_expr_stmt(Expr *e);
 	Stmt* on_decl_stmt(Decl *d);
-	Stmt* on_var_decl(Type t, Expr *e)
+	Stmt* on_var_decl(Type t, Expr *e);
 	
+	Type ty;
 };
 
 #endif

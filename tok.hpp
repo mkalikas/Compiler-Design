@@ -37,7 +37,7 @@ enum tok_kind {
 	lt_tok, // less than symbol
 	lt_eq_tok, // less than or equal
 	gt_tok, // greater than symbol
-	gt_eq_tok, // greater than or eequal
+	gt_eq_tok, // greater than or equal
 
 	break_tok,
 	continue_tok,

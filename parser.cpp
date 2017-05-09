@@ -9,7 +9,7 @@ Parser(std::unordered_map<std::string, Token*> &i, std::unordered_map<std::strin
 // definition of lookahead member function
 tok_kind Parser::lookahead() {
 	if(Token *tok = peek())
-		return tok->kind;
+		return tok->tok_kind;
 	else
 		return eof_tok;
 }

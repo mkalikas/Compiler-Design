@@ -102,13 +102,12 @@ exprTypes Less_orEqual_expr::type() {
 }
 exprTypes Add_expr::type() {
 	// check that e1->type() is int
-	if(e1->type() == int_type) {
-		// check that e2->type() is int
-		if(e2->type() == int_type)
-			return int_type;
-	}
-	else
-		return type_err;
+		if(e1->type() == int_type) {
+			if(e2->type() == int_type)
+				return int_type;
+		}
+		else
+			return type_err;
 }
 exprTypes Sub_expr::type() {
 	// check that e1->type() is int

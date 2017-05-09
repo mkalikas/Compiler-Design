@@ -3,6 +3,7 @@
 #define AST_EXPR_HPP
 
 #include <cassert>
+#include "ast_types.hpp"
 
 // Forward declaration of expressions
 struct Bool_expr;
@@ -30,8 +31,10 @@ struct Function_call_expr;
 
 struct Expr {
 	struct Visitor;
+  Expr(Type* t) : t(t) {}
+  Type* t;
+  Type* type() { return t; }
 	virtual ~Expr() = default;
-	virtual exprTypes type() = 0; // function to set types of expressions in derived classes
 	virtual void accept(Visitor&) = 0;
 };
 
@@ -66,7 +69,6 @@ struct Expr::Visitor {
 struct Bool_expr : Expr {
   bool val;
   Bool_expr(bool b) : val(b) { }
-  virtual exprTypes type();
   void accept(Visitor& v) override { v.visit(this); }
 };
 
@@ -74,7 +76,6 @@ struct Bool_expr : Expr {
 struct Int_expr : Expr {
   int val;
   Int_expr(int i) : val(i) { }
-  virtual exprTypes type();
   void accept(Visitor& v) override { v.visit(this); }
 };
 
@@ -82,39 +83,39 @@ struct Int_expr : Expr {
 struct And_expr : Expr {
   Expr* e1;
   Expr* e2;
-  And_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) { }
-  virtual exprTypes type();
+  Type* t;
+  And_expr(Expr* e1, Expr* e2, Type* t) : e1(e1), e2(e2), t(t) { }
   void accept(Visitor& v) override { v.visit(this); }
 };
 
 struct Or_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Or_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) { }
-  virtual exprTypes type();
+  Type* t;
+  Or_expr(Expr* e1, Expr* e2 Type* t) : e1(e1), e2(e2), t(t) { }
   void accept(Visitor& v) override { v.visit(this); }
 };
 
 struct Logical_neg_expr : Expr {
   Expr* e1;
-  Logical_neg_expr(Expr* e1) : e1(e1) { }
-  virtual exprTypes type();
+  Type* t;
+  Logical_neg_expr(Expr* e1, Type* t) : e1(e1), t(t) { }
   void accept(Visitor& v) override { v.visit(this); }
 };
 
 struct Equal_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Equal_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) {}
-  virtual exprTypes type();
+  Type* t;
+  Equal_expr(Expr* e1, Expr* e2, Type* t) : e1(e1), e2(e2), t(t) {}
   void accept(Visitor &v) override { v.visit(this); }
 };
 
 struct Not_Equal_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Not_Equal_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) {}
-  virtual exprTypes type();
+  Type* t;
+  Not_Equal_expr(Expr* e1, Expr* e2, Type* t) : e1(e1), e2(e2), t(t) {}
   void accept(Visitor &v) override { v.visit(this); }
 };
  // operand e1 is converted to bool, if e2 and e3 have the same type, then no other conversions are performed
@@ -122,8 +123,8 @@ struct Cond_expr : Expr {
 	Expr* e1;
 	Expr* e2;
 	Expr* e3;
-	Cond_expr(Expr* e1, Expr* e2, Expr* e3) : e1(e1), e2(e2), e3(e3) { }
-	virtual exprTypes type();
+  Type* t;
+	Cond_expr(Expr* e1, Expr* e2, Expr* e3, Type* t) : e1(e1), e2(e2), e3(e3),t(t) { }
 	void accept(Visitor &v) { v.visit(this); }
 };
  
@@ -131,32 +132,32 @@ struct Cond_expr : Expr {
 struct Less_than_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Less_than_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) {}
-  virtual exprTypes type();
+  Type* t;
+  Less_than_expr(Expr* e1, Expr* e2, Type* t) : e1(e1), e2(e2), t(t) {}
   void accept(Visitor &v) override { v.visit(this); }
 };
 
 struct Greater_than_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Greater_than_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) {}
-  virtual exprTypes type();
+  Type* t;
+  Greater_than_expr(Expr* e1, Expr* e2, Type* t) : e1(e1), e2(e2), t(t) {}
   void accept(Visitor &v) override { v.visit(this); }
 };
 
 struct Less_orEqual_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Less_orEqual_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) {}
-  virtual exprTypes type();
+  Type* t;
+  Less_orEqual_expr(Expr* e1, Expr* e2, Type* t) : e1(e1), e2(e2), t(t) {}
   void accept(Visitor &v) override { v.visit(this); }
 };
 
 struct Greater_orEqual_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Greater_orEqual_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) {}
-  virtual exprTypes type();
+  Type* t
+  Greater_orEqual_expr(Expr* e1, Expr* e2, Type* t) : e1(e1), e2(e2), t(t) {} 
   void accept(Visitor &v) override { v.visit(this); }
 };
 
@@ -164,46 +165,46 @@ struct Greater_orEqual_expr : Expr {
 struct Add_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Add_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) {}
-  virtual exprTypes type();
+  Type* t;
+  Add_expr(Expr* e1, Expr* e2, Type* t) : e1(e1), e2(e2), t(t) {}
   void accept(Visitor &v) { v.visit(this); }
 };
 
 struct Sub_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Sub_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) {}
-  virtual exprTypes type();
+  Type* t;
+  Sub_expr(Expr* e1, Expr* e2, Type* t) : e1(e1), e2(e2), t(t) {}
   void accept(Visitor &v) override { v.visit(this); }
 };
 
 struct Mult_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Mult_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) {}
-  virtual exprTypes type();
+  Type* t;
+  Mult_expr(Expr* e1, Expr* e2, Type* t) : e1(e1), e2(e2), t(t) {}
   void accept(Visitor &v) override { v.visit(this); }
 };
 
 struct Div_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Div_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) {}
-  virtual exprTypes type();
+  Type* t;
+  Div_expr(Expr* e1, Expr* e2, Type* t)) : e1(e1), e2(e2), t(t) {}
   void accept(Visitor &v) override { v.visit(this); }
 };
 
 struct Rem_expr : Expr {
   Expr* e1;
   Expr* e2;
-  Rem_expr(Expr* e1, Expr* e2) : e1(e1), e2(e2) {}
-  virtual exprTypes type();
+  Type* t;
+  Rem_expr(Expr* e1, Expr* e2, Type* t) : e1(e1), e2(e2), t(t) {}
   void accept(Visitor &v) override { v.visit(this); }
 };
 struct Arithmetic_neg_expr : Expr {
   Expr* e1;
-  Arithmetic_neg_expr(Expr* e1) : e1(e1) {}
-  virtual exprTypes type();
+  Type* t;
+  Arithmetic_neg_expr(Expr* e1, Type* t) : e1(e1), t(t) {}
   void accept(Visitor &v) override { v.visit(this); }
 };
 
@@ -233,12 +234,12 @@ struct Function_call_expr : Expr {
 
   void accept(Visitor &v) override { v.visit(this); } 
 };
-/*
+
 // Definition of Context class
 struct Context
 {
   Bool_type bool_type;
   Int_type int_type;
 };
-*/
+
 #endif
