@@ -1,3 +1,5 @@
+#include "parser.hpp"
+
 // Concrete syntax for expressions
 
 void Parser::expression() {

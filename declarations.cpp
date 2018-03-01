@@ -1,6 +1,5 @@
 // Declarations
-
-
+#include "parser.hpp"
 #include "ast_expr.hpp"
 #include "ast_types.hpp"
 
@@ -13,11 +12,11 @@ struct Function_decl : Decl {
 };
 
 struct  Param_decl : Decl {
-	
+  
 };
 
 struct Var_decl : Decl {
-	const std::string *next;
-	Type *ty;
-	Expr *int_;
+  const std::string *next;
+  Type *ty;
+  Expr *int_;
 };
