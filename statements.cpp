@@ -1,9 +1,7 @@
 // Concrete syntax for statements
 #include "parser.hpp"
 
-// definition of stmt member function
 Stmt Parser::stmt() {
-
 	switch(lookahead()) {
 		case lbrace_tok :
 			return block_stmt();
