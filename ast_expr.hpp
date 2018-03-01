@@ -62,7 +62,6 @@ struct Expr::Visitor {
 
 };
 
-// Type bool and values of true and false
 struct Bool_expr : Expr {
   bool val;
   Bool_expr(bool b) : val(b) { }
@@ -70,7 +69,6 @@ struct Bool_expr : Expr {
   void accept(Visitor& v) override { v.visit(this); }
 };
 
-// Type integer and the value is the one indicated by the expression
 struct Int_expr : Expr {
   int val;
   Int_expr(int i) : val(i) { }
