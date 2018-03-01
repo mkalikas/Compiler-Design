@@ -29,13 +29,13 @@ struct Assignment_expr;
 struct Function_call_expr;
 
 struct Expr {
-	struct Visitor;
-	virtual ~Expr() = default;
-	virtual exprTypes type() = 0; // function to set types of expressions in derived classes
-	virtual void accept(Visitor&) = 0;
+  struct Visitor;
+  virtual ~Expr() = default;
+  virtual exprTypes type() = 0; // function to set types of expressions in derived classes
+  virtual void accept(Visitor&) = 0;
 };
 
-// Definition of Visitor class
+// Visitor Design Pattern 
 struct Expr::Visitor {
   virtual void visit(Bool_expr*) = 0;
   virtual void visit(Int_expr*) = 0;
@@ -119,12 +119,12 @@ struct Not_Equal_expr : Expr {
 };
  // operand e1 is converted to bool, if e2 and e3 have the same type, then no other conversions are performed
 struct Cond_expr : Expr {
-	Expr* e1;
-	Expr* e2;
-	Expr* e3;
-	Cond_expr(Expr* e1, Expr* e2, Expr* e3) : e1(e1), e2(e2), e3(e3) { }
-	virtual exprTypes type();
-	void accept(Visitor &v) { v.visit(this); }
+  Expr* e1;
+  Expr* e2;
+  Expr* e3;
+  Cond_expr(Expr* e1, Expr* e2, Expr* e3) : e1(e1), e2(e2), e3(e3) { }
+  virtual exprTypes type();
+  void accept(Visitor &v) { v.visit(this); }
 };
  
 // The following expressions take operands of type integer. The result type of the expression is bool.
