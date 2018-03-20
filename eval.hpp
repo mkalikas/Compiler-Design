@@ -1,6 +1,4 @@
-#ifndef EVAL_HPP
-#define EVAL_HPP
-#endif
+#pragma once
 
 #include "ast.cpp"
 
@@ -35,4 +33,3 @@ bool eval(Expr* e) {
   return vis.r;
 }
 
-#endif

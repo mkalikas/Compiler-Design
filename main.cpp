@@ -53,19 +53,19 @@ main() {
     ));
     assert(check(cxt, e));
     print(e);
-	std::cout << " == " << eval(e) << '\n';
+  std::cout << " == " << eval(e) << '\n';
   }
 //std::ofstream out; // the file that will be written that contains the value of each expression
-	/*std::string lexeme; // the expression being read from input
-	char ch; // character
+  /*std::string lexeme; // the expression being read from input
+  char ch; // character
 
-	while(true) {
-		cout << "=>";
-		lexeme = std::getline();
+  while(true) {
+    cout << "=>";
+    lexeme = std::getline();
 
-	}*/
+  }*/
 
-	return 0;
+  return 0;
 
 }
 
